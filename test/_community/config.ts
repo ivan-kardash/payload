@@ -1,54 +1,31 @@
 import { buildConfigWithDefaults } from '../buildConfigWithDefaults'
-import { devUser } from '../credentials'
-import { MediaCollection } from './collections/Media'
-import { PostsCollection, postsSlug } from './collections/Posts'
 import { MenuGlobal } from './globals/Menu'
 
 export default buildConfigWithDefaults({
   // ...extend config here
-  collections: [
-    PostsCollection,
-    MediaCollection,
-    // ...add more collections here
-  ],
-  globals: [
-    MenuGlobal,
-    // ...add more globals here
-  ],
+  collections: [],
+  globals: [MenuGlobal],
   graphQL: {
     schemaOutputFile: './test/_community/schema.graphql',
   },
-
+  localization: {
+    defaultLocale: 'en',
+    locales: ['en', 'by'],
+    fallback: true,
+  },
   onInit: async (payload) => {
-    await payload.create({
-      collection: 'users',
+    await payload.updateGlobal({
+      slug: 'menu',
+      locale: 'en',
       data: {
-        email: devUser.email,
-        password: devUser.password,
+        globalText: { someText: 'Some global text in English' },
       },
     })
-
-    await payload.create({
-      collection: postsSlug,
+    await payload.updateGlobal({
+      slug: 'menu',
+      locale: 'by',
       data: {
-        text: 'example post',
-        title: 'title1',
-      },
-    })
-
-    await payload.create({
-      collection: postsSlug,
-      data: {
-        text: 'example post',
-        title: 'title3',
-      },
-    })
-
-    await payload.create({
-      collection: postsSlug,
-      data: {
-        text: 'example post',
-        title: 'title2',
+        globalText: { someText: 'Нейкий глабальный тэксту па-беларуску' },
       },
     })
   },

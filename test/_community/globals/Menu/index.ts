@@ -7,7 +7,7 @@ export const MenuGlobal: GlobalConfig = {
   fields: [
     {
       name: 'globalText',
-      type: 'text',
+      type: 'json',
     },
   ],
 }
